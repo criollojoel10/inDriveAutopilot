@@ -43,15 +43,24 @@ android {
         compose = true
     }
 
+    // Empaquetado: evitar excluir TODO META-INF/* porque necesitamos incluir META-INF/lsposed/module.json
     packaging {
-        resources.excludes += "META-INF/*"
+        resources {
+            // Sólo excluir archivos comunes no deseados (no eliminamos META-INF/lsposed)
+            excludes += setOf(
+                "META-INF/DEPENDENCIES",
+                "META-INF/LICENSE",
+                "META-INF/LICENSE.txt",
+                "META-INF/NOTICE",
+                "META-INF/NOTICE.txt"
+            )
+        }
     }
 }
 
 dependencies {
     // Xposed API: solo para compilar (LSPosed la provee en runtime)
     compileOnly("de.robv.android.xposed:api:82")
-    compileOnly("de.robv.android.xposed:api:82:sources")
 
     // Catálogo de versiones (Compose + AndroidX)
     implementation(libs.androidx.core.ktx)
