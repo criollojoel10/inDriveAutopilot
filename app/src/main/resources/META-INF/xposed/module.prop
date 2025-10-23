@@ -1,0 +1,4 @@
+name=inDrive Autopilot
+version=1
+description=Hooks para automatizar flujos en inDrive
+minApi=100
