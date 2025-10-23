@@ -19,3 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Mantener el entrypoint y helpers del paquete xposed
+-keep class dev.joel.indriveautopilot.xposed.** { *; }
+# Ajustar nombres de recursos si se renombra
+-adaptresourcefilenames
