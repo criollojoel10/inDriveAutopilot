@@ -25,6 +25,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
+        // Rquerido por NewXShaderPreferences (LSPosed)
+        preferenceManager.sharedPreferencesMode = android.content.Context.MODE_WORLD_READABLE
+        requireContext().getSharedPreferences("${requireContext().packageName}_preferences",
+            android.content.Context.MODE_WORLD_READABLE)
+
         // Carpeta de logs (SAF)
         findPreference<Preference>("pickLogFolder")?.setOnPreferenceClickListener {
             pickFolder.launch(null)
