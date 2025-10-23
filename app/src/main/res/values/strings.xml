@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">inDriveAutopilot</string>
+    <string name="xposed_desc">Autopilot para InDrive vía LSPosed (legacy API 82)</string>
 </resources>
