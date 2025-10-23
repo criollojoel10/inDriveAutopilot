@@ -51,6 +51,7 @@ android {
 dependencies {
     // Xposed API: solo para compilar (LSPosed la provee en runtime)
     compileOnly("de.robv.android.xposed:api:82")
+    compileOnly("de.robv.android.xposed:api:82:sources")
 
     // Catálogo de versiones (Compose + AndroidX)
     implementation(libs.androidx.core.ktx)
