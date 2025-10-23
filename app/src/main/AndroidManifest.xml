@@ -33,7 +33,7 @@
         <!-- Requerido por Xposed/LSPosed (legacy) -->
         <meta-data android:name="xposedmodule" android:value="true"/>
         <meta-data android:name="xposeddescription" android:value="@string/xposed_desc"/>
-        <meta-data android:name="xposedminversion" android:value="82"/>
+        <meta-data android:name="xposedminversion" android:value="93"/>
 
         <!-- (Opcional, no activado aún) para preferencias legibles desde hooks sin hacks:
         <meta-data android:name="xposedsharedprefs" android:value="true"/>
