@@ -30,12 +30,12 @@
             android:name=".MainActivity"
             android:exported="false" />
 
-        <!-- Requerido por Xposed/LSPosed (legacy) -->
-        <meta-data android:name="xposedmodule" android:value="true"/>
-        <meta-data android:name="xposeddescription" android:value="@string/xposed_desc"/>
-        <meta-data android:name="xposedminversion" android:value="93"/>
-
-        <!-- (Opcional, no activado aún) para preferencias legibles desde hooks sin hacks: -->
+        <!-- Mantener XSharedPreferences moderno (New XSharedPreferences / LSPosed) -->
         <meta-data android:name="xposedsharedprefs" android:value="true"/>
+
+        <!-- NOTA: se han eliminado a propósito las meta-data legacy:
+             xposedmodule, xposeddescription, xposedminversion
+             LSPosed modern usará META-INF/lsposed/module.json en su lugar.
+        -->
     </application>
 </manifest>
