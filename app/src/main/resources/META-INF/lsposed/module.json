@@ -1,0 +1,14 @@
+{
+  "id": "dev.joel.indriveautopilot",
+  "name": "InDrive Autopilot (LSPosed modern)",
+  "version": "1.0.0",
+  "author": "criollojoel10",
+  "description": "Autopilot para inDriver — hooks modernizados para LSPosed API 100",
+  "min_api": 100,
+  "entry": "dev.joel.indriveautopilot.MainHook",
+  "supported_abis": ["arm64-v8a", "armeabi-v7a"],
+  "compat": {
+    "xposed": true,
+    "lsposed_modern": true
+  }
+}
