@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.InDriveAutopilot" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Puedes personalizar tu tema aquí. -->
+        <!-- Por ejemplo: -->
+        <!-- <item name="colorPrimary">@color/purple_500</item> -->
+        <!-- <item name="colorPrimaryVariant">@color/purple_700</item> -->
+        <!-- <item name="colorOnPrimary">@color/white</item> -->
+    </style>
+</resources>
