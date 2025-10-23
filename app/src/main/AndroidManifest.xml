@@ -32,7 +32,9 @@
 
         <!-- Mantener XSharedPreferences moderno (New XSharedPreferences / LSPosed) -->
         <meta-data android:name="xposedsharedprefs" android:value="true"/>
-
+        <!-- <meta-data android:name="xposedscope" android:value="ru.indriver.android"/> -->
+        <meta-data android:name="xposedscope" android:value="ru.indriver.android"/>
+        
         <!-- NOTA: se han eliminado a propósito las meta-data legacy:
              xposedmodule, xposeddescription, xposedminversion
              LSPosed modern usará META-INF/lsposed/module.json en su lugar.
