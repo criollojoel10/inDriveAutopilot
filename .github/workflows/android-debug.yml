@@ -1,4 +1,3 @@
-#url=https://github.com/cavirovi/inDriveAutopilot/blob/36a58df935437927f26c7d5c00e9d0e62f75fc27/.github/workflows/android-debug.yml
 name: Android Debug APK
 
 on:
@@ -8,7 +7,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+      ANDROID_HOME: /usr/local/lib/android/sdk
 
     steps:
       - name: Checkout
@@ -20,19 +20,6 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
-      - name: Cache Gradle
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'gradle/libs.versions.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
       - name: Setup Android SDK (required)
         uses: android-actions/setup-android@v3
         with:
@@ -41,13 +28,11 @@ jobs:
             platforms;android-34
             build-tools;34.0.0
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
-
-      - name: Ensure Android SDK env variables
-        run: |
-          echo "ANDROID_SDK_ROOT=${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}" >> $GITHUB_ENV
-          echo "ANDROID_HOME=${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}" >> $GITHUB_ENV
 
       - name: Build debug APK (verbose)
         env:
