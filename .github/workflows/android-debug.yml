@@ -1,4 +1,4 @@
- url=https://github.com/cavirovi/inDriveAutopilot/blob/36a58df935437927f26c7d5c00e9d0e62f75fc27/.github/workflows/android-debug.yml
+#url=https://github.com/cavirovi/inDriveAutopilot/blob/36a58df935437927f26c7d5c00e9d0e62f75fc27/.github/workflows/android-debug.yml
 name: Android Debug APK
 
 on:
