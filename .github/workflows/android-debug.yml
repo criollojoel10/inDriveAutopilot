@@ -7,8 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
-      ANDROID_HOME: /usr/local/lib/android/sdk
+      CI: true
 
     steps:
       - name: Checkout
@@ -20,15 +19,17 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      # Setup Android SDK (required)
       - name: Setup Android SDK (required)
         uses: android-actions/setup-android@v3
         with:
           packages: |
             cmdline-tools;latest
+            platform-tools
             platforms;android-34
             build-tools;34.0.0
 
-      - name: Setup Gradle
+      - name: Setup Gradle (cache)
         uses: gradle/actions/setup-gradle@v4
 
       - name: Make gradlew executable
@@ -37,7 +38,7 @@ jobs:
       - name: Build debug APK (verbose)
         env:
           GRADLE_OPTS: -Xmx2048m -Dfile.encoding=UTF-8
-        run: ./gradlew :app:assembleDebug --stacktrace --info --no-daemon
+        run: ./gradlew clean :app:assembleDebug --stacktrace --info --no-daemon
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
