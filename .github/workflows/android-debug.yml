@@ -1,11 +1,14 @@
+ url=https://github.com/cavirovi/inDriveAutopilot/blob/36a58df935437927f26c7d5c00e9d0e62f75fc27/.github/workflows/android-debug.yml
 name: Android Debug APK
 
 on:
-  workflow_dispatch: # Permite ejecutarlo manualmente
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
 
     steps:
       - name: Checkout
@@ -20,14 +23,39 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'gradle/libs.versions.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Setup Android SDK (required)
+        uses: android-actions/setup-android@v3
+        with:
+          packages: |
+            cmdline-tools;latest
+            platforms;android-34
+            build-tools;34.0.0
+
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Build debug APK
-        run: ./gradlew :app:assembleDebug
+      - name: Ensure Android SDK env variables
+        run: |
+          echo "ANDROID_SDK_ROOT=${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}" >> $GITHUB_ENV
+          echo "ANDROID_HOME=${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}" >> $GITHUB_ENV
+
+      - name: Build debug APK (verbose)
+        env:
+          GRADLE_OPTS: -Xmx2048m -Dfile.encoding=UTF-8
+        run: ./gradlew :app:assembleDebug --stacktrace --info --no-daemon
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
-          path: app/build/outputs/apk/debug/*.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
