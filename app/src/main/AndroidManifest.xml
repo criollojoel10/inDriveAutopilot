@@ -5,39 +5,32 @@
 
     <application
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:description="@string/module_description"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.InDriveAutopilot">
+        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+        tools:targetApi="31">
 
-        <!-- SETTINGS como pantalla principal (abre el engranaje de LSPosed y el icono del launcher) -->
+        <!-- Pantalla de configuración del módulo (LAUNCHER) -->
         <activity
-            android:name="dev.joel.indriveautopilot.ui.SettingsActivity"
+            android:name=".ui.SettingsActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.InDriveAutopilot">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <!-- (Opcional) Deja MainActivity sin launcher o elimínala si no la usas -->
+        <!-- (Opcional) Si existe MainActivity de plantilla, déjala sin LAUNCHER o elimínala -->
+        <!--
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-
-        <!-- Mantener XSharedPreferences moderno (New XSharedPreferences / LSPosed) -->
-        <meta-data android:name="xposedsharedprefs" android:value="true"/>
-        <!-- <meta-data android:name="xposedscope" android:value="ru.indriver.android"/> -->
-        <meta-data android:name="xposedscope" android:value="ru.indriver.android"/>
-        
-        <!-- NOTA: se han eliminado a propósito las meta-data legacy:
-             xposedmodule, xposeddescription, xposedminversion
-             LSPosed modern usará META-INF/lsposed/module.json en su lugar.
         -->
+
+        <!-- Modern API: NO usar <meta-data xposed*> en el manifest -->
     </application>
 </manifest>

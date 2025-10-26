@@ -1,52 +1,51 @@
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    kotlin("android")
 }
 
 android {
     namespace = "dev.joel.indriveautopilot"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "dev.joel.indriveautopilot"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.0"
     }
 
     buildTypes {
+        debug { isMinifyEnabled = false }
         release {
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isMinifyEnabled = false // activa luego si quieres
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
-        debug {
-            isMinifyEnabled = false
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
     }
 
     packaging {
         resources {
-            // Asegura que empaquetamos recursos modernos sin conflictos
-            excludes += setOf("META-INF/**.kotlin_module")
+            excludes += setOf("META-INF/LICENSE*", "META-INF/NOTICE*")
         }
     }
-}
 
-repositories {
-    google()
-    mavenCentral()
+    kotlinOptions { jvmTarget = "17" }
 }
 
 dependencies {
-    // Modern Xposed API: proveída por el framework en runtime
+    // **Necesario** para los estilos Theme.Material3.* (MDC-Android / Views)
+    implementation("com.google.android.material:material:1.11.0") // o la última disponible
+
+    // Si usas algún widget AppCompat (Toolbar, etc.)
+    implementation("androidx.appcompat:appcompat:1.7.0")
+
+    // Ya tenías esto para libxposed en compileOnly (no lo toco)
     compileOnly("io.github.libxposed:api:100")
+
+// AndroidX Preference (incluye attrs como iconSpaceReserved)
+    implementation("androidx.preference:preference-ktx:1.2.1")
+
 }

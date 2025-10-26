@@ -1,34 +1,14 @@
 package dev.joel.indriveautopilot.ui.theme
 
-import androidx.compose.material3.Typography
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
-
-// Set of Material typography styles to start with
-val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
-    )
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
-    ),
-    labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
-    )
-    */
-)
+/**
+ * Tipografía básica sin Jetpack Compose.
+ * Si más adelante quieres Compose, cambia a androidx.compose.material3.Typography.
+ */
+object AppTypography {
+    const val FONT_FAMILY_DEFAULT = "sans-serif"
+    const val FONT_SIZE_SMALL = 14    // sp
+    const val FONT_SIZE_MEDIUM = 16   // sp
+    const val FONT_SIZE_LARGE = 20    // sp
+    const val FONT_WEIGHT_NORMAL = 400
+    const val FONT_WEIGHT_BOLD = 700
+}

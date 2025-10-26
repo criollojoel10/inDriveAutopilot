@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- ==================== Criterios generales ==================== -->
+    <androidx.preference.PreferenceCategory
+        android:title="Criterios generales" />
+
+    <androidx.preference.EditTextPreference
+        android:key="minRating"
+        android:title="Mínimo rating"
+        android:defaultValue="4.0"
+        android:inputType="numberDecimal"
+        app:useSimpleSummaryProvider="true" />
+
+    <androidx.preference.EditTextPreference
+        android:key="minReviews"
+        android:title="Mínimo reseñas"
+        android:defaultValue="15"
+        android:inputType="number"
+        app:useSimpleSummaryProvider="true" />
+
+    <androidx.preference.EditTextPreference
+        android:key="maxPickupKm"
+        android:title="Pickup máx (km)"
+        android:defaultValue="1.5"
+        android:inputType="numberDecimal"
+        app:useSimpleSummaryProvider="true" />
+
+    <androidx.preference.EditTextPreference
+        android:key="dMaxKm"
+        android:title="Distancia máx (km)"
+        android:defaultValue="6.0"
+        android:inputType="numberDecimal"
+        app:useSimpleSummaryProvider="true" />
+
+    <!-- ==================== Política de precio ==================== -->
+    <androidx.preference.PreferenceCategory
+        android:title="Política de precio" />
+
+    <androidx.preference.EditTextPreference
+        android:key="minFixedUnder3"
+        android:title="Precio fijo &lt; 3.0 (USD)"
+        android:defaultValue="1.00"
+        android:inputType="numberDecimal"
+        app:useSimpleSummaryProvider="true" />
+
+    <androidx.preference.EditTextPreference
+        android:key="minFixed3to34"
+        android:title="Precio fijo 3.0–3.4 (USD)"
+        android:defaultValue="1.20"
+        android:inputType="numberDecimal"
+        app:useSimpleSummaryProvider="true" />
+
+    <androidx.preference.EditTextPreference
+        android:key="perKmFrom35"
+        android:title="$/km desde 3.5"
+        android:defaultValue="0.40"
+        android:inputType="numberDecimal"
+        app:useSimpleSummaryProvider="true" />
+
+    <androidx.preference.EditTextPreference
+        android:key="tolFrom35"
+        android:title="Tolerancia (C)"
+        android:defaultValue="0.10"
+        android:inputType="numberDecimal"
+        app:useSimpleSummaryProvider="true" />
+
+    <androidx.preference.SwitchPreferenceCompat
+        android:key="toleranceOnUnder3"
+        android:title="Permitir tolerancia en &lt; 3.5"
+        android:defaultValue="false" />
+
+    <androidx.preference.EditTextPreference
+        android:key="tolUnder3"
+        android:title="Tolerancia (A/B)"
+        android:defaultValue="0.00"
+        android:inputType="numberDecimal"
+        app:useSimpleSummaryProvider="true" />
+
+    <androidx.preference.SwitchPreferenceCompat
+        android:key="roundHalfUp"
+        android:title="Redondeo .5 hacia arriba"
+        android:defaultValue="true" />
+
+    <!-- ==================== Lecturas flexibles ==================== -->
+    <androidx.preference.PreferenceCategory
+        android:title="Lecturas flexibles" />
+
+    <androidx.preference.SwitchPreferenceCompat
+        android:key="allowUnknownReviewsCount"
+        android:title="Aceptar sin # de reseñas conocidas"
+        android:defaultValue="false" />
+
+    <androidx.preference.SwitchPreferenceCompat
+        android:key="allowUnknownStopsCount"
+        android:title="Aceptar paradas desconocidas"
+        android:defaultValue="false" />
+
+    <!-- ==================== Comportamiento ==================== -->
+    <androidx.preference.PreferenceCategory
+        android:title="Comportamiento" />
+
+    <androidx.preference.SwitchPreferenceCompat
+        android:key="autoOpenFeedItems"
+        android:title="Abrir ítems del feed automáticamente"
+        android:defaultValue="false" />
+
+    <androidx.preference.SwitchPreferenceCompat
+        android:key="showRejectToast"
+        android:title="Mostrar toast al rechazar"
+        android:defaultValue="false" />
+
+    <androidx.preference.SwitchPreferenceCompat
+        android:key="autoCloseOnReject"
+        android:title="Cerrar pantalla al rechazar"
+        android:defaultValue="false" />
+
+    <androidx.preference.SwitchPreferenceCompat
+        android:key="useAccessibilityFallback"
+        android:title="Usar fallback de Accesibilidad"
+        android:defaultValue="false" />
+
+    <androidx.preference.SwitchPreferenceCompat
+        android:key="nightPause"
+        android:title="Pausa nocturna"
+        android:defaultValue="false" />
+
+    <androidx.preference.SwitchPreferenceCompat
+        android:key="panicGesture"
+        android:title="Gesto de pánico"
+        android:defaultValue="false" />
+
+    <androidx.preference.SwitchPreferenceCompat
+        android:key="batterySaver"
+        android:title="Ahorro de batería"
+        android:defaultValue="false" />
+
+    <!-- ==================== Humanizer ==================== -->
+    <androidx.preference.PreferenceCategory
+        android:title="Humanizer" />
+
+    <androidx.preference.EditTextPreference
+        android:key="delayMinMs"
+        android:title="Delay mínimo (ms)"
+        android:defaultValue="700"
+        android:inputType="number"
+        app:useSimpleSummaryProvider="true" />
+
+    <androidx.preference.EditTextPreference
+        android:key="delayMaxMs"
+        android:title="Delay máximo (ms)"
+        android:defaultValue="1800"
+        android:inputType="number"
+        app:useSimpleSummaryProvider="true" />
+
+    <androidx.preference.EditTextPreference
+        android:key="jitterPct"
+        android:title="Jitter (%)"
+        android:defaultValue="15"
+        android:inputType="number"
+        app:useSimpleSummaryProvider="true" />
+
+    <androidx.preference.EditTextPreference
+        android:key="rateLimitSec"
+        android:title="Rate limit (s)"
+        android:defaultValue="20"
+        android:inputType="number"
+        app:useSimpleSummaryProvider="true" />
+
+    <!-- ==================== Logs ==================== -->
+    <androidx.preference.PreferenceCategory
+        android:title="Logs" />
+
+    <androidx.preference.SwitchPreferenceCompat
+        android:key="logEnabled"
+        android:title="Activar logs"
+        android:defaultValue="true" />
+
+    <androidx.preference.SwitchPreferenceCompat
+        android:key="logTotals"
+        android:title="Incluir totales en logs"
+        android:defaultValue="true" />
+
+</PreferenceScreen>

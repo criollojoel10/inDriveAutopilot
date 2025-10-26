@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
+    <!-- Tema base de la app (Views) basado en Material 3 -->
     <style name="Theme.InDriveAutopilot" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Puedes personalizar tu tema aquí. -->
-        <!-- Por ejemplo: -->
-        <!-- <item name="colorPrimary">@color/purple_500</item> -->
-        <!-- <item name="colorPrimaryVariant">@color/purple_700</item> -->
-        <!-- <item name="colorOnPrimary">@color/white</item> -->
+        <!-- Personalización mínima de ejemplo -->
+        <item name="android:statusBarColor" tools:targetApi="l">@android:color/transparent</item>
+        <!-- Si usas MaterialToolbar, AppBar, etc. no necesitas ActionBar -->
     </style>
+
 </resources>

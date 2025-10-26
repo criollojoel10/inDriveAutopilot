@@ -1,9 +1,7 @@
 package dev.joel.indriveautopilot.logic
 
-import android.app.Activity
-import de.robv.android.xposed.XSharedPreferences
+import android.content.SharedPreferences
 import kotlin.math.floor
-import kotlin.math.roundToInt
 
 data class Verdict(
     val accept: Boolean,
@@ -181,59 +179,52 @@ class RuleEngine(private val cfg: RuleConfig) {
     val logEnabled get() = cfg.logEnabled
     val logTotals get() = cfg.logTotals
 
-    // ===================== Preferencias (XSharedPreferences) =====================
+    // ===================== Preferencias (Modern API / SharedPreferences) =====================
     companion object {
-        // ⚠️ Cambia esto si tu applicationId es diferente
-        private const val MODULE_PKG = "dev.joel.indriveautopilot"
-
         /**
-         * Lee SIEMPRE las preferencias del MÓDULO (no las de la app hookeada)
-         * usando XSharedPreferences + reload().
-         *
-         * Lado módulo: habilitar New XSharedPreferences (AndroidManifest meta-data)
-         * y abrir prefs en MODE_WORLD_READABLE (p.ej. en SettingsFragment).
+         * Construye un RuleEngine leyendo desde SharedPreferences.
+         * En Modern API, obtén preferencias remotas del módulo con:
+         *   val prefs = module.getRemotePreferences("dev.joel.indriveautopilot")
+         * y pásalas a este método.
          */
-        fun fromPrefs(@Suppress("UNUSED_PARAMETER") ctx: Activity): RuleEngine {
-            val xsp = XSharedPreferences(MODULE_PKG)
-            xsp.reload() // imprescindible
-
+        fun fromPrefs(prefs: SharedPreferences): RuleEngine {
             // --- Criterios generales ---
-            val minRating   = xsp.getString("minRating", "4.0")!!.toDouble()
-            val minReviews  = xsp.getString("minReviews", "15")!!.toInt()
-            val maxPickupKm = xsp.getString("maxPickupKm", "1.5")!!.toDouble()
-            val dMaxKm      = xsp.getString("dMaxKm", "6.0")!!.toDouble()
+            val minRating   = prefs.getString("minRating", "4.0")!!.toDouble()
+            val minReviews  = prefs.getString("minReviews", "15")!!.toInt()
+            val maxPickupKm = prefs.getString("maxPickupKm", "1.5")!!.toDouble()
+            val dMaxKm      = prefs.getString("dMaxKm", "6.0")!!.toDouble()
 
             // --- Política de precio ---
-            val minFixedUnder3 = xsp.getString("minFixedUnder3", "1.00")!!.toDouble()
-            val minFixed3to34  = xsp.getString("minFixed3to34", "1.20")!!.toDouble()
-            val perKmFrom35    = xsp.getString("perKmFrom35", "0.40")!!.toDouble()
-            val tolFrom35      = xsp.getString("tolFrom35", "0.10")!!.toDouble()
-            val tolUnder3Enabled = xsp.getBoolean("toleranceOnUnder3", false)
-            val tolUnder3        = xsp.getString("tolUnder3", "0.00")!!.toDouble()
-            val roundHalfUp      = xsp.getBoolean("roundHalfUp", true)
+            val minFixedUnder3 = prefs.getString("minFixedUnder3", "1.00")!!.toDouble()
+            val minFixed3to34  = prefs.getString("minFixed3to34", "1.20")!!.toDouble()
+            val perKmFrom35    = prefs.getString("perKmFrom35", "0.40")!!.toDouble()
+            val tolFrom35      = prefs.getString("tolFrom35", "0.10")!!.toDouble()
+            val tolUnder3Enabled = prefs.getBoolean("toleranceOnUnder3", false)
+            val tolUnder3        = prefs.getString("tolUnder3", "0.00")!!.toDouble()
+            val roundHalfUp      = prefs.getBoolean("roundHalfUp", true)
 
             // --- Lecturas flexibles ---
-            val allowUnknownReviewsCount = xsp.getBoolean("allowUnknownReviewsCount", false)
-            val allowUnknownStopsCount   = xsp.getBoolean("allowUnknownStopsCount", false)
+            val allowUnknownReviewsCount = prefs.getBoolean("allowUnknownReviewsCount", false)
+            val allowUnknownStopsCount   = prefs.getBoolean("allowUnknownStopsCount", false)
 
             // --- Comportamiento ---
-            val autoOpenFeedItems    = xsp.getBoolean("autoOpenFeedItems", false)
-            val showRejectToast      = xsp.getBoolean("showRejectToast", false)
-            val autoCloseOnReject    = xsp.getBoolean("autoCloseOnReject", false)
-            val useAccessibilityFallback = xsp.getBoolean("useAccessibilityFallback", false)
-            val nightPause           = xsp.getBoolean("nightPause", false)
-            val panicGesture         = xsp.getBoolean("panicGesture", false)
-            val batterySaver         = xsp.getBoolean("batterySaver", false)
+            val autoOpenFeedItems    = prefs.getBoolean("autoOpenFeedItems", false)
+            val showRejectToast      = prefs.getBoolean("showRejectToast", false)
+            val autoCloseOnReject    = prefs.getBoolean("autoCloseOnReject", false)
+            val useAccessibilityFallback = prefs.getBoolean("useAccessibilityFallback", false)
+            val nightPause           = prefs.getBoolean("nightPause", false)
+            val panicGesture         = prefs.getBoolean("panicGesture", false)
+            val batterySaver         = prefs.getBoolean("batterySaver", false)
 
             // --- Humanizer ---
-            val delayMinMs   = xsp.getString("delayMinMs", "700")!!.toLong()
-            val delayMaxMs   = xsp.getString("delayMaxMs", "1800")!!.toLong()
-            val jitterPct    = xsp.getString("jitterPct", "15")!!.toInt()
-            val rateLimitSec = xsp.getString("rateLimitSec", "20")!!.toLong()
+            val delayMinMs   = prefs.getString("delayMinMs", "700")!!.toLong()
+            val delayMaxMs   = prefs.getString("delayMaxMs", "1800")!!.toLong()
+            val jitterPct    = prefs.getString("jitterPct", "15")!!.toInt()
+            val rateLimitSec = prefs.getString("rateLimitSec", "20")!!.toLong()
 
             // --- Logs ---
-            val logEnabled = xsp.getBoolean("logEnabled", true)
-            val logTotals  = xsp.getBoolean("logTotals", true)
+            val logEnabled = prefs.getBoolean("logEnabled", true)
+            val logTotals  = prefs.getBoolean("logTotals", true)
 
             return RuleEngine(
                 RuleConfig(

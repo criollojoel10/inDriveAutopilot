@@ -1,80 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- Criterios -->
-    <PreferenceCategory app:title="Criterios del pasajero">
-        <EditTextPreference app:key="minRating" app:title="Rating mínimo" app:useSimpleSummaryProvider="true" app:defaultValue="4.0"/>
-        <EditTextPreference app:key="minReviews" app:title="Mínimo de evaluaciones" app:useSimpleSummaryProvider="true" app:defaultValue="15"/>
-        <EditTextPreference app:key="maxPickupKm" app:title="Pickup máximo (km)" app:useSimpleSummaryProvider="true" app:defaultValue="1.5"/>
-        <EditTextPreference app:key="dMaxKm" app:title="Distancia máxima a B (km, D_real)" app:useSimpleSummaryProvider="true" app:defaultValue="6.0"/>
+    <androidx.preference.PreferenceCategory
+        android:title="@string/prefs_header_general">
 
-        <SwitchPreferenceCompat
-            app:key="allowUnknownReviewsCount"
-            app:title="Permitir aceptar si no hay conteo de evaluaciones"
-            app:summary="Si está desactivado, sin conteo ≡ NO aceptar"
-            app:defaultValue="false"/>
+        <androidx.preference.SwitchPreferenceCompat
+            android:key="autopilot_enabled"
+            android:title="@string/prefs_autopilot_title"
+            android:summary="@string/prefs_autopilot_summary"
+            app:iconSpaceReserved="false" />
+    </androidx.preference.PreferenceCategory>
 
-        <SwitchPreferenceCompat
-            app:key="allowUnknownStopsCount"
-            app:title="Permitir aceptar si no se puede detectar número de paradas"
-            app:summary="Si está desactivado, si no detecta claramente 1 destino ≡ NO aceptar"
-            app:defaultValue="false"/>
-    </PreferenceCategory>
+    <androidx.preference.PreferenceCategory
+        android:title="@string/prefs_header_debug">
 
-    <!-- Precio por D (política Joel) -->
-    <PreferenceCategory app:title="Precio por distancia (A→B)">
-        <EditTextPreference app:key="minFixedUnder3" app:title="Tramo A: D_real &lt; 3.0 → mínimo $" app:useSimpleSummaryProvider="true" app:defaultValue="1.00"/>
-        <EditTextPreference app:key="minFixed3to34" app:title="Tramo B: 3.0–3.4 → mínimo $" app:useSimpleSummaryProvider="true" app:defaultValue="1.20"/>
-        <EditTextPreference app:key="perKmFrom35" app:title="Tramo C: desde 3.5 km (redondeo .5↑) → $/km" app:useSimpleSummaryProvider="true" app:defaultValue="0.40"/>
-        <EditTextPreference app:key="tolFrom35" app:title="Tolerancia desde 3.5 km (valor a restar $)" app:useSimpleSummaryProvider="true" app:defaultValue="0.10"/>
+        <androidx.preference.EditTextPreference
+            android:key="debug_tag"
+            android:title="@string/prefs_debug_tag_title"
+            android:dialogTitle="@string/prefs_debug_tag_title"
+            app:useSimpleSummaryProvider="true"
+            app:iconSpaceReserved="false" />
+    </androidx.preference.PreferenceCategory>
 
-        <SwitchPreferenceCompat
-            app:key="roundHalfUp"
-            app:title="Redondeo .5 hacia arriba (para tramo ≥3.5 km)"
-            app:defaultValue="true"/>
-
-        <!-- opcionales apagados -->
-        <SwitchPreferenceCompat
-            app:key="toleranceOnUnder3"
-            app:title="Permitir tolerancia en tramos A/B"
-            app:summary="Si se activa, se usa 'tolUnder3' al comparar $1.00/$1.20"
-            app:defaultValue="false"/>
-        <EditTextPreference app:key="tolUnder3" app:title="Tolerancia tramos A/B (resta $)" app:useSimpleSummaryProvider="true" app:defaultValue="0.00"/>
-    </PreferenceCategory>
-
-    <!-- Humanizer -->
-    <PreferenceCategory app:title="Humanizer">
-        <EditTextPreference app:key="delayMinMs" app:title="Delay mínimo (ms)" app:useSimpleSummaryProvider="true" app:defaultValue="700"/>
-        <EditTextPreference app:key="delayMaxMs" app:title="Delay máximo (ms)" app:useSimpleSummaryProvider="true" app:defaultValue="1800"/>
-        <EditTextPreference app:key="jitterPct" app:title="Jitter (%)" app:useSimpleSummaryProvider="true" app:defaultValue="15"/>
-        <EditTextPreference app:key="rateLimitSec" app:title="Rate-limit (s)" app:useSimpleSummaryProvider="true" app:defaultValue="20"/>
-    </PreferenceCategory>
-
-    <!-- Logs -->
-    <PreferenceCategory app:title="Logs">
-        <SwitchPreferenceCompat
-            app:key="logEnabled"
-            app:title="Activar logging de aceptaciones (CSV + totales)"
-            app:defaultValue="true"/>
-        <SwitchPreferenceCompat
-            app:key="logTotals"
-            app:title="Mantener totales (día/mes/acumulado)"
-            app:defaultValue="true"/>
-
-        <Preference app:key="pickLogFolder" app:title="Elegir carpeta de LOG (SAF)" app:summary="Recomendado: /Download/inDriveAutopilot"/>
-        <Preference app:key="exportToday" app:title="Exportar CSV de hoy" app:summary="Compartir CSV del día"/>
-        <Preference app:key="resetTotals" app:title="Resetear totales" app:summary="Reinicia total_all_time y contadores"/>
-    </PreferenceCategory>
-
-    <!-- Comportamiento (opcionales OFF) -->
-    <PreferenceCategory app:title="Comportamiento">
-        <SwitchPreferenceCompat app:key="autoOpenFeedItems" app:title="Auto-abrir ítems del feed" app:defaultValue="false"/>
-        <SwitchPreferenceCompat app:key="showRejectToast" app:title="Mostrar aviso cuando no cumple" app:defaultValue="false"/>
-        <SwitchPreferenceCompat app:key="autoCloseOnReject" app:title="Auto-cerrar oferta si no cumple" app:defaultValue="false"/>
-        <SwitchPreferenceCompat app:key="useAccessibilityFallback" app:title="Accesibilidad auto-gestionada si fallan IDs/texto" app:defaultValue="false"/>
-        <SwitchPreferenceCompat app:key="nightPause" app:title="Modo nocturno (pausar AUTO en franja)" app:defaultValue="false"/>
-        <SwitchPreferenceCompat app:key="panicGesture" app:title="Gesto de pánico (apaga AUTO al agitar)" app:defaultValue="false"/>
-        <SwitchPreferenceCompat app:key="batterySaver" app:title="Ahorro de batería (limitar acciones/min)" app:defaultValue="false"/>
-    </PreferenceCategory>
-
-</PreferenceScreen>
+</androidx.preference.PreferenceScreen>

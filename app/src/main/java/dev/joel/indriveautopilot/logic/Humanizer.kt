@@ -3,9 +3,9 @@ package dev.joel.indriveautopilot.logic
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import androidx.preference.PreferenceManager
-import de.robv.android.xposed.XposedBridge
 import kotlin.math.max
 import kotlin.random.Random
 
@@ -21,7 +21,7 @@ object Humanizer {
 
         val now = System.currentTimeMillis()
         if (now - lastClickAt < rate * 1000) {
-            XposedBridge.log("[Humanizer] Skip: rate-limit")
+            Log.d("Autopilot", "[Humanizer] Skip: rate-limit")
             return
         }
 
@@ -37,6 +37,6 @@ object Humanizer {
 
     fun clickView(v: View) {
         runCatching { v.performClick() }
-            .onFailure { XposedBridge.log("[Humanizer] performClick fallo: ${it.message}") }
+            .onFailure { Log.e("Autopilot", "[Humanizer] performClick fallo: ${it.message}") }
     }
 }

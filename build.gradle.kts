@@ -1,71 +1,42 @@
- url=https://github.com/cavirovi/inDriveAutopilot/blob/36a58df935437927f26c7d5c00e9d0e62f75fc27/app/build.gradle.kts
+// build.gradle.kts (root) — Alinea toolchains/targets para Java y Kotlin en todos los módulos
+
+import org.gradle.api.plugins.JavaPlugin
+import org.gradle.api.plugins.JavaPluginExtension
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.KotlinBasePluginWrapper
+import org.jetbrains.kotlin.gradle.dsl.KotlinProjectExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
-    // Usa los aliases del version catalog (gradle/libs.versions.toml)
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    // Mantén estos alias si usas Version Catalog (libs.versions.toml)
+    alias(libs.plugins.androidApplication) apply false
+    alias(libs.plugins.jetbrainsKotlinAndroid) apply false
+    alias(libs.plugins.composeCompiler) apply false
 }
 
-android {
-    namespace = "dev.joel.indriveautopilot"
-    compileSdk = 34
+// No declares repositories aquí (se controlan desde settings.gradle.kts)
 
-    defaultConfig {
-        applicationId = "dev.joel.indriveautopilot"
-        minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-        debug {
-            isMinifyEnabled = false
+subprojects {
+    // Unifica la toolchain de Java a 17 para módulos que aplican el plugin Java
+    plugins.withType<JavaPlugin> {
+        extensions.configure(JavaPluginExtension::class.java) {
+            toolchain.languageVersion.set(JavaLanguageVersion.of(17))
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
-    // ===== Compose configuration =====
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        // Si Android Studio te indica otra versión compatible con Kotlin 2.0.21,
-        // cambia este valor al recomendado por el error.
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
-    }
-
-    packaging {
-        resources {
-            excludes += setOf("META-INF/**.kotlin_module")
+    // Unifica la toolchain y el bytecode de Kotlin (Android/JVM) a 17
+    plugins.withType(KotlinBasePluginWrapper::class.java) {
+        // Toolchain de Kotlin (elige JDK 17 para compilar)
+        extensions.configure(KotlinProjectExtension::class.java) {
+            jvmToolchain(17)
+        }
+        // Bytecode target para Kotlin
+        tasks.withType(KotlinCompile::class.java).configureEach {
+            compilerOptions {
+                jvmTarget.set(JvmTarget.JVM_17)
+                // Puedes agregar flags extra si lo necesitas:
+                // freeCompilerArgs.add("-Xjsr305=strict")
+            }
         }
     }
-}
-
-dependencies {
-    // BOM para alinear versiones de Compose
-    implementation(platform(libs.androidx.compose.bom))
-
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.activity.compose)
-
-    debugImplementation(libs.androidx.compose.ui.tooling)
-
-    // Tu dependencia original en modo compileOnly si corresponde
-    compileOnly("io.github.libxposed:api:100")
 }

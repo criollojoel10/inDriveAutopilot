@@ -1,26 +1,33 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+#############################################
+# R8 / ProGuard - inDriveAutopilot (Modern API)
+#############################################
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# 1) Entry class del módulo (no cambiar nombre ni constructor)
+-keep class dev.joel.indriveautopilot.MainModule { *; }
+-keepnames class dev.joel.indriveautopilot.MainModule
+-keep class dev.joel.indriveautopilot.MainModule {
+    public <init>(io.github.libxposed.api.XposedContext,
+                  io.github.libxposed.api.XposedModuleInterface$ModuleLoadedParam);
+}
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# 2) API moderna de libxposed (framework la inyecta en runtime)
+-keep class io.github.libxposed.** { *; }
+-dontwarn io.github.libxposed.**
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# 3) Hookers (por si minificas agresivo)
+-keep class * implements io.github.libxposed.api.XposedInterface$Hooker { *; }
+# (Opcional) Conservar nombres de before/after si tu flujo los requiere explícitos
+# -keepclassmembers class * implements io.github.libxposed.api.XposedInterface$Hooker {
+#     public void before(...);
+#     public void after(...);
+# }
 
-# Mantener el entrypoint y helpers del paquete xposed
--keep class dev.joel.indriveautopilot.xposed.** { *; }
-# Ajustar nombres de recursos si se renombra
+# 4) Mantener metadatos y permitir adaptar nombres en recursos
+-keepattributes *Annotation*, InnerClasses, EnclosingMethod, Signature
 -adaptresourcefilenames
+-adaptresourcefilecontents
+
+# 5) Asegurar archivos del módulo moderno (META-INF/xposed/**)
+-keepresourcefiles META-INF/xposed/java_init.list
+-keepresourcefiles META-INF/xposed/module.prop
+-keepresourcefiles META-INF/xposed/scope.list
