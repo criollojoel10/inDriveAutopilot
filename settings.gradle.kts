@@ -4,22 +4,20 @@ pluginManagement {
     repositories {
         google()
         mavenCentral()
-        gradlePluginPortal() // Necesario para resolver org.jetbrains.kotlin.plugin.compose y otros plugins
+        gradlePluginPortal() // Kotlin/otros plugins
     }
 }
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        // 👉 Primero mavenLocal para que tome el AAR local de libxposed
+        // Si publicas un AAR local de libxposed, mantenlo primero
         mavenLocal {
-            content {
-                includeGroup("io.github.libxposed")
-            }
+            content { includeGroup("io.github.libxposed") }
         }
         google()
         mavenCentral()
-        // NO agregar https://api.xposed.info/ si usas Modern API (solo legacy).
+        // NO agregar https://api.xposed.info/ (solo para API legado)
     }
 }
 

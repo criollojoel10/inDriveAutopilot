@@ -1,6 +1,6 @@
 [versions]
 # === Toolchain ===
-agp = "8.6.1"          # AGP 8.6.x => Gradle 8.7+, JDK 17
+agp = "8.13.0"          # AGP 8.6.x => Gradle 8.7+, JDK 17
 kotlin = "2.1.20"      # Kotlin KGP 2.1.x
 # composeCompiler (versión directa) ya no se usa con el plugin nuevo
 

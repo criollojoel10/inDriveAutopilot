@@ -1,8 +1,6 @@
-# Datos visibles y mínimos del módulo (propiedades tipo Java)
 name=InDrive Autopilot
 description=Módulo libxposed moderno para inDriver (carga mínima y logs)
 version=1.0.0
 author=Joel
 minApi=100
-targetApi=100
-staticScope=false
+staticScope=true

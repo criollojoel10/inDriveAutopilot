@@ -16,9 +16,12 @@ android {
     }
 
     buildTypes {
-        debug { isMinifyEnabled = false }
+        debug {
+            isMinifyEnabled = false
+        }
         release {
-            isMinifyEnabled = false // activa luego si quieres
+            // Puedes ofuscar; ya incluimos reglas R8 actualizadas
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -26,26 +29,26 @@ android {
         }
     }
 
+    // Asegurar Java/Kotlin 17
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions { jvmTarget = "17" }
+
     packaging {
         resources {
             excludes += setOf("META-INF/LICENSE*", "META-INF/NOTICE*")
         }
     }
-
-    kotlinOptions { jvmTarget = "17" }
 }
 
 dependencies {
-    // **Necesario** para los estilos Theme.Material3.* (MDC-Android / Views)
-    implementation("com.google.android.material:material:1.11.0") // o la última disponible
-
-    // Si usas algún widget AppCompat (Toolbar, etc.)
+    // UI opcional (para SettingsActivity, preferencias, etc.)
+    implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.appcompat:appcompat:1.7.0")
-
-    // Ya tenías esto para libxposed en compileOnly (no lo toco)
-    compileOnly("io.github.libxposed:api:100")
-
-// AndroidX Preference (incluye attrs como iconSpaceReserved)
     implementation("androidx.preference:preference-ktx:1.2.1")
 
+    // API moderna de libxposed: NO empaquetar
+    compileOnly("io.github.libxposed:api:100")
 }

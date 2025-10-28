@@ -2,32 +2,23 @@
 # R8 / ProGuard - inDriveAutopilot (Modern API)
 #############################################
 
-# 1) Entry class del módulo (no cambiar nombre ni constructor)
--keep class dev.joel.indriveautopilot.MainModule { *; }
--keepnames class dev.joel.indriveautopilot.MainModule
+# 1) Clase de entrada del módulo: conservar clase y firma del constructor moderna
 -keep class dev.joel.indriveautopilot.MainModule {
-    public <init>(io.github.libxposed.api.XposedContext,
-                  io.github.libxposed.api.XposedModuleInterface$ModuleLoadedParam);
+    public <init>(io.github.libxposed.api.XposedInterface,
+                  io.github.libxposed.api.XposedModule$ModuleLoadedParam);
+    *;
 }
+-keepnames class dev.joel.indriveautopilot.MainModule
 
-# 2) API moderna de libxposed (framework la inyecta en runtime)
+# 2) API moderna de libxposed (no la empaquetas, pero conserva firmas para el runtime)
 -keep class io.github.libxposed.** { *; }
 -dontwarn io.github.libxposed.**
 
-# 3) Hookers (por si minificas agresivo)
+# 3) Hookers por anotaciones
 -keep class * implements io.github.libxposed.api.XposedInterface$Hooker { *; }
-# (Opcional) Conservar nombres de before/after si tu flujo los requiere explícitos
-# -keepclassmembers class * implements io.github.libxposed.api.XposedInterface$Hooker {
-#     public void before(...);
-#     public void after(...);
-# }
-
-# 4) Mantener metadatos y permitir adaptar nombres en recursos
 -keepattributes *Annotation*, InnerClasses, EnclosingMethod, Signature
--adaptresourcefilenames
--adaptresourcefilecontents
 
-# 5) Asegurar archivos del módulo moderno (META-INF/xposed/**)
+# 4) Mantener los archivos de configuración del módulo moderno
 -keepresourcefiles META-INF/xposed/java_init.list
 -keepresourcefiles META-INF/xposed/module.prop
 -keepresourcefiles META-INF/xposed/scope.list
